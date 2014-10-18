@@ -2,9 +2,9 @@ var express = require('express')
     var http = require('http')
     var sys = require('sys');
     var twilio = require('twilio')
+    var config = require('./config')
 var app = express();
-var client = new twilio.RestClient('C7c5ccbe028b2bc3f2731f960e6e1a0b9','0a2ac30b128b59d2ed47c0ff55051645')
-
+var client = new twilio.RestClient(config.AcSid,config.authToken)
 
  app.set('port', (process.env.PORT || 5000))
  app.use(express.static(__dirname + '/public'))
