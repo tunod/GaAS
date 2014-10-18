@@ -17,43 +17,28 @@ var client = new twilio.RestClient('C7c5ccbe028b2bc3f2731f960e6e1a0b9','0a2ac30b
 app.post('/incoming', function(request, response) {
     var message = request.body.Body;
     var from = request.body.From;
-    var processedMessage = function(message){
-        return message;
-    }
+    result = processedMessage
     sys.log('From: ' + from + ', Message: ' + message);
-    var twiml = '<?xml version="1.0" encoding="UTF-8" ?>n<Response>n<Message>'+ processedMessage +'</Message>n</Response>';
-       response.send(twiml, {'Content-Type':'text/xml'}, 200);
+
+    response.send(processedMessage(message),{'Content-Type':'text/xml'}, 200);
 });
+
 http.createServer(app).listen(app.get('port'), function() {    console.log("Node app is running at localhost:" + app.get('port'))  })
-//var rapgeniusClient = require("rapgenius-js");
 
-//var lyricsSearchCb = function(err, lyricsAndExplanations){
-    //if(err){
-      //console.log("Error: " + err);
-    //}else{
-      ////Printing lyrics with section names
-      //var lyrics = lyricsAndExplanations.lyrics;
-      //var explanations = lyricsAndExplanations.explanations;
-      //console.log("Found lyrics for song [title=%s, main-artist=%s, featuring-artists=%s, producing-artists=%s]",
-        //lyrics.songTitle, lyrics.mainArtist, lyrics.featuringArtists, lyrics.producingArtists);
-      //console.log("**** LYRICS *****\n%s", lyrics.getFullLyrics(true));
-
-      ////Now we can embed the explanations within the verses
-      //// lyrics.addExplanations(explanations);
-      //// var firstVerses = lyrics.sections[0].verses[0];
-      //// console.log("\nVerses:\n %s \n\n *** This means ***\n%s", firstVerses.content, firstVerses.explanation);
-    //}
-//};
-
-//var searchCallback = function(err, songs){
-  //if(err){
-    //console.log("Error: " + err);
-  //}else{
-    //if(songs.length > 0){
-      ////We have some songs
-      //rapgeniusClient.searchLyricsAndExplanations(songs[0].link, "rap", lyricsSearchCb);
-    //}
-  //}
-//};
-
-//rapgeniusClient.searchSong("Rap God", "rap", searchCallback);
+function processMessage(message){
+    querySongs = require('./getlyrics.js')
+    var temp = message
+    var oStr = Example.slice(0,3)
+    var result = "Sorry, couldn't process your request"
+    temp = temp(oStr+' ', '')
+    if oStr == '(l)'{
+        result = 'Name'
+        //querySongs.getName(temp)
+    }
+    else if oStr == '(n)'{
+        result = 'Lyrics'
+        //querySongs.getLyrics(temp)
+    }
+    var twiml = '<?xml version="1.0" encoding="UTF-8" ?>n<Response>n<Message>'+result+'</Message>n</Response>';
+    return twiml;
+}
