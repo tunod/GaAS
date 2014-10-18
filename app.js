@@ -2,11 +2,11 @@ var express = require('express')
 var app = express();
 var sys = require('sys');
 var twilio = require('twilio')
-var client = new twilio.RestClient('AC4714e1e120457d299eac88f29b529f31','e1f4be4a0f6b8d21a316d791b03c6531')
+var client = new twilio.RestClient('AC7c5ccbe028b2bc3f2731f960e6e1a0b9','0a2ac30b128b59d2ed47c0ff55051645')
 
 client.sms.messages.create({
-	to:'+12244756148',
-	from:'+16309488123',
+	to:'+19139807603', 
+	from:'+19132148496',  
 	body:'ahoy ahoy ahoy bromigo'
 }, function(error, message) {
 	if(!error) {
@@ -29,9 +29,12 @@ app.post('/incoming', function(request, response) {
     var message = request.body.Body;
     var from = request.body.From;
     sys.log('From: ' + from + ', Message: ' + message);
+	
     var twiml = '<?xml version="1.0" encoding="UTF-8" ?>n<Response>n<Sms>Thanks for your text, we\'ll be in touch.</Sms>n</Response>';
        response.send(twiml, {'Content-Type':'text/xml'}, 200);
 });
+
+
 
 //// app.listen(app.get('port'), function() { //   console.log("Node app is running at localhost:" + app.get('port')) // })
 //var rapgeniusClient = require("rapgenius-js");
