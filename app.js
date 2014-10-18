@@ -28,14 +28,14 @@ http.createServer(app).listen(app.get('port'), function() {    console.log("Node
 function processMessage(message){
     querySongs = require('./getlyrics.js')
     var temp = message
-    var oStr = Example.slice(0,3)
+    var oStr = message.slice(0,3)
     var result = "Sorry, couldn't process your request"
     temp = temp(oStr+' ', '')
-    if oStr == '(l)'{
+    if (oStr.localeCompare('(l)')){
         result = 'Name'
         //querySongs.getName(temp)
     }
-    else if oStr == '(n)'{
+    else if (oStr.localeCompare('(n)')){
         result = 'Lyrics'
         //querySongs.getLyrics(temp)
     }
