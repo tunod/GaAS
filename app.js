@@ -1,21 +1,10 @@
 var express = require('express')
+    var http = require('http')
+    var sys = require('sys');
+    var twilio = require('twilio')
 var app = express();
-var sys = require('sys');
-var twilio = require('twilio')
-var client = new twilio.RestClient('AC7c5ccbe028b2bc3f2731f960e6e1a0b9','0a2ac30b128b59d2ed47c0ff55051645')
+var client = new twilio.RestClient('C7c5ccbe028b2bc3f2731f960e6e1a0b9','0a2ac30b128b59d2ed47c0ff55051645')
 
-client.sms.messages.create({
-	to:'+19139807603', 
-	from:'+19132148496',  
-	body:'ahoy ahoy ahoy bromigo'
-}, function(error, message) {
-	if(!error) {
-		console.log('Success SID for message is: ')
-		console.log(message.sid)
-	} else {
-		console.log('error, yo')
-	}
-})
 
  app.set('port', (process.env.PORT || 5000))
  app.use(express.static(__dirname + '/public'))
@@ -28,15 +17,14 @@ client.sms.messages.create({
 app.post('/incoming', function(request, response) {
     var message = request.body.Body;
     var from = request.body.From;
+    var processedMessage = function(message){
+        return message;
+    }
     sys.log('From: ' + from + ', Message: ' + message);
-	
-    var twiml = '<?xml version="1.0" encoding="UTF-8" ?>n<Response>n<Sms>Thanks for your text, we\'ll be in touch.</Sms>n</Response>';
+    var twiml = '<?xml version="1.0" encoding="UTF-8" ?>n<Response>n<Message>'+ processedMessage +'</Message>n</Response>';
        response.send(twiml, {'Content-Type':'text/xml'}, 200);
 });
-
-
-
-//// app.listen(app.get('port'), function() { //   console.log("Node app is running at localhost:" + app.get('port')) // })
+http.createServer(app).listen(app.get('port'), function() {    console.log("Node app is running at localhost:" + app.get('port'))  })
 //var rapgeniusClient = require("rapgenius-js");
 
 //var lyricsSearchCb = function(err, lyricsAndExplanations){
