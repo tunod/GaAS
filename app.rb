@@ -3,6 +3,8 @@ require 'pp'
 require 'json'
 require 'soundcloud'
 require 'sinatra'
+require 'oj'
+
 
 def search_by_lyrics(query, number)
 	strings = RapGenius.search_by_lyrics(query)[0..2].collect do | song |
@@ -17,11 +19,10 @@ def search_by_title(query, number)
 	end
 end
 
-
 def getLyrics(query)
   song = RapGenius.search_by_title(query)[0]
-  puts song.title
-  iterate_lyrics(song)
+  #puts song.title
+  #iterate_lyrics(song)
 end
 
 def concat_lyrics(buffer,current)
@@ -40,12 +41,14 @@ def iterate_lyrics(song)
 end
 
 
+
 get '/' do
     'Nothin\' here homie'
 end
 
 get '/lyrics/:name' do
-     getLyrics(params['name'])
+      content_type :json
+     Oj.dump(getLyrics(params['name']).lines)
 end
 
 def rap_genius_from_name(query, number)

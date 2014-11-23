@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.2'
 gem 'rapgenius'
+gem 'oj'
 gem 'sinatra'
 gem 'rack'
 gem 'soundcloud'
