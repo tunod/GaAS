@@ -26,9 +26,9 @@ end
 
 def concat_lyrics(buffer,current)
   if(current.lyric[0] == ",")
-    buffer << "\n\n"
+    buffer << "<br><br>"
   else
-    buffer << "\n"+current.lyric.to_s
+    buffer << "<br>"+current.lyric.to_s
   end
 end
 
@@ -36,7 +36,7 @@ def iterate_lyrics(song)
   result_lyrics=""
   current_lines = song.lines
   current_lines.each{|current| concat_lyrics(result_lyrics,current)}
-  puts result_lyrics
+  result_lyrics
 end
 
 
@@ -45,8 +45,7 @@ get '/' do
 end
 
 get '/lyrics/:name' do
-    songName = params['name']
-    "#{getLyrics(songName)}"
+     getLyrics(params['name'])
 end
 
 def rap_genius_from_name(query, number)
