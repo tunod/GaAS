@@ -48,7 +48,13 @@ end
 
 get '/lyrics/:name' do
       content_type :json
-     Oj.dump(getLyrics(params['name']).lines)
+     result = getLyrics(params['name'])
+     if result.nil?
+       Oj.dump({:result => "404"})
+     else
+       Oj.dump({:result => result.lines})
+     
+     end
 end
 
 def rap_genius_from_name(query, number)
