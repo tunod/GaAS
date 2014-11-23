@@ -52,7 +52,7 @@ get '/lyrics/:name' do
      if result.nil?
        Oj.dump({:result => "404"})
      else
-       Oj.dump({:result => result.lines})
+       Oj.dump(result.lines)
      
      end
 end
